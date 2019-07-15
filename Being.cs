@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+
 namespace Historia
 {
     public class LoadStats//Contain all of the stats for aa being - these are placed onto the being itself after load from the XmlFile.
@@ -22,12 +23,15 @@ namespace Historia
         private int currentHP;
         private int baseMaxHP;
         private int currentGold;
+        public Inventory Inv;
+
+        
 
         public int ATK
         {
             get
             {
-                int Total = baseATK;
+                int Total = baseATK + Inv.getATK();
                 foreach(StatChange S in Changes)
                 {
                     if(S.StatToChange == "ATK")
@@ -59,7 +63,7 @@ namespace Historia
         {
             get
             {
-                int Total = baseACC;
+                int Total = baseACC + Inv.getACC();
                 foreach (StatChange S in Changes)
                 {
                     if (S.StatToChange == "ACC")
@@ -77,7 +81,7 @@ namespace Historia
         {
             get
             {
-                int Total = baseEVA;
+                int Total = baseEVA + Inv.getEVA();
                 foreach (StatChange S in Changes)
                 {
                     if (S.StatToChange == "EVA")
@@ -95,7 +99,7 @@ namespace Historia
         {
             get
             {
-                int Total = baseSPD;
+                int Total = baseSPD+Inv.getSPD();
                 foreach (StatChange S in Changes)
                 {
                     if (S.StatToChange == "SPD")
@@ -120,7 +124,7 @@ namespace Historia
         {
             get
             {
-                int Total = baseMaxHP;
+                int Total = baseMaxHP+Inv.getHP_Modifier();
                 foreach (StatChange S in Changes)
                 {
                     if (S.StatToChange == "MaxHP")
@@ -170,6 +174,7 @@ namespace Historia
         public LoadStats()
         {
             Changes = new List<StatChange>();
+            Inv = new Inventory();
         }
 
         public void LoadContent()
@@ -186,6 +191,7 @@ namespace Historia
             {
                 ApplyStatChange(S);
             }
+            Inv.LoadContent();
         }
 
         /// <summary>
@@ -322,6 +328,10 @@ namespace Historia
         }
 
         public bool IsAlive;
+        private Byte load_state;//tracks whether this object is fully loaded or not for purposes of never drawing buggy objects
+                                /// <summary>
+                                /// 0 = unloaded. 1= LoadContentCalled, image not updated. 2 = fully loaded.
+                                /// </summary>
 
         public Image Image;
 
@@ -357,9 +367,10 @@ namespace Historia
 
         public LoadStats Stats;//contains all values such as Attack, Defense, Speed, Evasion, and Accuracy, as well as values like Gold totals.
 
-        protected int FacingAddup;
-        protected int ActionFrameSet;
+        protected  int FacingAddup;
+        private int ActionFrameSet;
 
+        
         public int CurrentAction { get { return ActionFrameSet; } }
 
         protected Vector2 offset;
@@ -367,7 +378,7 @@ namespace Historia
         public Vector2 TilePosition;
         protected Vector2 TileAllign;
 
-        private bool HasBegunAction;
+        private bool WillBeginAction;
         protected bool IsBusy;
         int ActionTimeOverflow;//the number of milliseconds of passed time that didn't get used for anything in the last update pass.
 
@@ -395,8 +406,8 @@ namespace Historia
 
         [XmlIgnore]
         public CollFactFile MyCollFactFile { get; protected set; }
-        
 
+       
         [XmlIgnore]
         public int CurrentRoomIn { get; protected set; }
         [XmlIgnore]
@@ -443,11 +454,12 @@ namespace Historia
         public int BlockStatus;
         
 
-        public virtual void LoadContent(Vector2 TileDimensions, Vector2 SpawnLocation, Map map)
+        public virtual void LoadContent( Vector2 TileDimensions, Vector2 SpawnLocation, Map map)
         {
             this.mapRef = map;
             Image.LoadContent();
-            Image.IsActive = false;//whilst the being is placed
+            Image.IsActive = true;
+            
             TilePosition = SpawnLocation;
             Image.Position = TilePosition * TileDimensions;
             this.TileDimensions = TileDimensions;
@@ -467,13 +479,13 @@ namespace Historia
                 }
 
             }
-            Image.IsActive = true;//made visible now it has an actual location
+            
+            load_state = 1;//will end up true when updated for the first time so images etc can be set up with effects
         }
 
-        public virtual void LoadContent(Vector2 TileDimensions)//AS ABOVE - but no specified spawn, as either has one (Xml) or doesn't need one(blueprint)
+        public virtual void LoadContent( Vector2 TileDimensions)//AS ABOVE - but no specified spawn, as either has one (Xml) or doesn't need one(blueprint)
         {
             Image.LoadContent();
-            Image.IsActive = true;
             Image.Position = TilePosition * TileDimensions;
             this.TileDimensions = TileDimensions;
             Stats.LoadContent();
@@ -482,10 +494,14 @@ namespace Historia
             AssignNewMoveTime(Stats.SPD);
             TileAllign = new Vector2((TileDimensions.X - Image.SpriteSheetEffect.FrameWidth) / 2, TileDimensions.Y - Image.SpriteSheetEffect.FrameHeight);
             MyCollFactFile = new CollFactFile(0, true, -1);
+            Image.IsActive = true;
+            
+            load_state =  1;
         }
 
         public virtual void UnloadContent()
         {
+            load_state = 0;
             Image.UnloadContent();
         }
 
@@ -549,12 +565,12 @@ namespace Historia
                 {
                     if (!IsBusy)
                     {
-                        HasBegunAction = DecideWhattoDo(gameTime, out ActionFrameSet);//see summary below
-
-                    }
-                    if (HasBegunAction)
-                    {
-                        StartAction(gameTime);
+                        WillBeginAction = DecideWhattoDo(gameTime, out int newAction);//see summary below
+                        if (WillBeginAction)
+                        {
+                            StartAction(gameTime, newAction);//changes IsBusy if valid
+                            WillBeginAction = false;
+                        }
                     }
                     if (IsBusy)//if the character is moving (either since previously, or having only just started)
                     {
@@ -564,18 +580,28 @@ namespace Historia
                             ReturnToIdle();
                         }
                     }
+                    else
+                    {
+
+                    }
                 }
-                Died = false;
+                Died = false;//not died before this loop, so report back...
             }
             else
-            {
+             {
                 Died = true;
                 Image.IsActive = false;
             }
+
             AdjustOffsetsX(gameTime);
             AdjustOffsetsY(gameTime);
             UpdateCurrentRoomIn();
             Image.Update(gameTime);
+
+            if (load_state == 1)
+            {
+                load_state = 2;
+            }
         }
 
         public virtual void Act(GameTime gameTime)//decides what actions are to be taken. Override to add or change actions, but remember that some int codes are taken.
@@ -724,9 +750,10 @@ namespace Historia
 
         //Start Action Methods
 
-        protected virtual void StartAction(GameTime gameTime)
+        protected virtual void StartAction(GameTime gameTime, int newAction)
         {
-            HasBegunAction = false;
+            WillBeginAction = false;
+            ActionFrameSet = newAction;
             Image.SpriteSheetEffect.CurrentFrame.Y = (ActionFrameSet * 4) + FacingAddup;
             if (ActionFrameSet > 0)
             {
@@ -762,22 +789,40 @@ namespace Historia
                         Interact(gameTime);//is an instant thing atm, so deosn't reach process of interact at ACT stage, but at START stage.
                         break;
                     case 10:
-                        IsBusy = Abilities[0].StartAction();
+                        if (Abilities[0] != null)
+                        {
+                            IsBusy = Abilities[0].StartAction();
+                        }
                         break;
                     case 11:
-                        IsBusy = Abilities[0].StartAction();
+                        if (Abilities[1] != null)
+                        {
+                            IsBusy = Abilities[1].StartAction();
+                        }
                         break;
                     case 12:
-                        IsBusy = Abilities[2].StartAction();
+                        if (Abilities[2] != null)
+                        {
+                            IsBusy = Abilities[2].StartAction();
+                        }
                         break;
                     case 13:
-                        IsBusy = Abilities[3].StartAction();
+                        if (Abilities[3] != null)
+                        {
+                            IsBusy = Abilities[3].StartAction();
+                        }
                         break;
                     case 14:
-                        IsBusy = Abilities[4].StartAction();
+                        if (Abilities[4] != null)
+                        {
+                            IsBusy = Abilities[4].StartAction();
+                        }
                         break;
                     case 15:
-                        IsBusy = Abilities[5].StartAction();
+                        if (Abilities[5] != null)
+                        {
+                            IsBusy = Abilities[5].StartAction();
+                        }
                         break;
                 }
             }
@@ -1072,7 +1117,7 @@ namespace Historia
 
         protected virtual void Interact(GameTime gameTime)
         {
-
+            //TODO: 
         }
 
         //end Action Methods
@@ -1086,6 +1131,12 @@ namespace Historia
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="Action"></param>
+        /// <returns>boolean: Whether or not an action is to be started.</returns>
         protected abstract bool DecideWhattoDo(GameTime gameTime, out int Action);//the bool is returned true if anything is decided and an action is started.
                                                                                   /// <summary Decide What to Do...>
                                                                                   /// This Method will contain all logic defining what the chracter will do next, based on AI for the enemies and input for the hero.
@@ -1101,8 +1152,10 @@ namespace Historia
             Image.Position -= camera.Offset;
             Image.Position += offset;
             Image.Position += TileAllign;
-
-            Image.Draw(spriteBatch);
+            if (load_state ==2)
+            {
+                Image.Draw(spriteBatch);
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch, Vector2 CameraOffset, Vector2 Origin)
@@ -1111,8 +1164,10 @@ namespace Historia
             Image.Position -= CameraOffset;
             Image.Position += offset;
             Image.Position += TileAllign;
-
-            Image.Draw(spriteBatch);
+            if (load_state ==2 )
+            {
+                Image.Draw(spriteBatch);
+            }
         }
 
         public void AssignNewMoveTime(int NewMoveSpeed)
@@ -1142,9 +1197,9 @@ namespace Historia
         {
             for (int R = 0; R < mapRef.Rooms.Count; R++)
             {
-                if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[R].Location[0]))
+                if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[R].Location))
                 {
-                    CurrentLocaleBounds = mapRef.Rooms[R].Location[0];
+                    CurrentLocaleBounds = mapRef.Rooms[R].Location;
                     IsInRoom = true;
                     CurrentRoomIn = R;
                     return;
@@ -1195,18 +1250,18 @@ namespace Historia
                 {//Check the two rooms that that the passageway connected to
                     int Room1Ind = mapRef.Passages[CurrentPassagewayIn].End1.EndPointID;
                     //check the 2 ends, End1 first, End2 second.
-                    if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[Room1Ind].Location[0]))
+                    if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[Room1Ind].Location))
                     {
-                        CurrentLocaleBounds = mapRef.Rooms[Room1Ind].Location[0];
+                        CurrentLocaleBounds = mapRef.Rooms[Room1Ind].Location;
                         IsInRoom = true;
                         CurrentRoomIn = Room1Ind;
                         return;
                     }
                     int Room2Ind = mapRef.Passages[CurrentPassagewayIn].End2.EndPointID;
                     //now try the 2nd end
-                    if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[Room2Ind].Location[0]))
+                    if (RectMethod.LocationIsInRectangle(TilePosition, mapRef.Rooms[Room2Ind].Location))
                     {
-                        CurrentLocaleBounds = mapRef.Rooms[Room2Ind].Location[0];
+                        CurrentLocaleBounds = mapRef.Rooms[Room2Ind].Location;
                         IsInRoom = true;
                         CurrentRoomIn = Room2Ind;
                         return;
@@ -1348,7 +1403,8 @@ namespace Historia
             IsBusy = false;
             mapRef.BC.RemovePreviousLocation(MyCollFactFile, Vector2.Zero);
             Image.SpriteSheetEffect.CurrentFrame.Y = 40 + FacingAddup;//dead (10*4, as the 11th action, 10 being interact.)
-            Image.SpriteSheetEffect.IsActive = false;
+            Image.IsActive = false;
+            Image.IsVisible = false;
         }
 
         //Extra Loading Procedures

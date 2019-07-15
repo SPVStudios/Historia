@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Historia.Abilities.Buff" Collapsed="true">
+    <Position X="26" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Abilities\Buff.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Abilities.Special_Move" Collapsed="true">
+    <Position X="27.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAACAQAAkAGgAAAAAAAgCAgAAAAABAAAAAAAAAQ=</HashCode>
+      <FileName>Abilities\Special Move.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.AIBehaviour">
+    <Position X="15" Y="7.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>BSUAEgBAAgCBiBCBAIAoEAkEAACAAaQGGGAoCBAoAAw=</HashCode>
+      <FileName>AI Behaviour\AIBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s0.Lazy" Collapsed="true">
+    <Position X="9.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s0\Lazy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s0.Oblivious_Behaviour" Collapsed="true">
+    <Position X="9.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAACggBAAAAAAAAAAgAAAAAAAQAAAAAAUAKBAAAAA=</HashCode>
+      <FileName>AI Behaviour\s0\Oblivious Behaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s1.Pace" Collapsed="true">
+    <Position X="7" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s1\Pace.cs</FileName>
+      <NewMemberFileName>AI Behaviour\s0\Pace.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s1.Lazy" Collapsed="true">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <InheritanceLine Type="Historia.AI_Behaviour.s1.Unsettled_Behaviour" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="8.441" />
+        <Point X="6" Y="9.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s1\Lazy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s1.Unsettled_Behaviour" Collapsed="true">
+    <Position X="5.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s1\Unsettled Behaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s2.Lazy" Collapsed="true">
+    <Position X="3" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s2\Lazy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s2.Suspicious_Behaviour" Collapsed="true">
+    <Position X="3" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s2\Suspicious Behaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s3.Alerted_Behaviour" Collapsed="true">
+    <Position X="0.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s3\Alerted Behaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s3.Lazy" Collapsed="true">
+    <Position X="0.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s3\Lazy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ATK_Packet" Collapsed="true">
+    <Position X="17" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEEAAAEwAAAAAQAAAAIQECCAAAoAAAAAAAgAGAACAAY=</HashCode>
+      <FileName>AttackManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AttackManager" Collapsed="true">
+    <Position X="25.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIAAAAAAAAAAAAAgABAAAAAQAAQBEAAAAA=</HashCode>
+      <FileName>AttackManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.LoadStats" Collapsed="true">
+    <Position X="18.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAACAAAAAACCBBAAAAAAAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>Being.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Being" Collapsed="true">
+    <Position X="12.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gZWE2QAiIoAOLjDsQiAIYABIaMmSAFmBCMAChkQEkEc=</HashCode>
+      <FileName>Being.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Camera" Collapsed="true">
+    <Position X="22.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADQAIAAABQAAAAAAAAAAAAAAAAACIAAAAAAADAgAgAA=</HashCode>
+      <FileName>Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.CollisionCheck" Collapsed="true">
+    <Position X="20.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kgAAAAIAgBAAAAAAAIAAAAAAAABEAAAAQAgAAAAAABA=</HashCode>
+      <FileName>CollisionCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.DungeonCreator" Collapsed="true">
+    <Position X="25.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAaAAEAAAAABAAAgAAQAIAAQAAEQA=</HashCode>
+      <FileName>DungeonCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.DungeonImageTracer" Collapsed="true">
+    <Position X="24" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIgAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAEAIAABAAA=</HashCode>
+      <FileName>DungeonImageTracer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.DungeonMassProductionScreen" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAEAAAABAAAgAAAAAAAAAAAAAAABAAAAAAACAAAAQ=</HashCode>
+      <FileName>DungeonMassProductionScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.DungeonMethod" Collapsed="true">
+    <Position X="17" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>DungeonMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Enemy" Collapsed="true">
+    <Position X="10.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEQAAIARAAAAAEAAEAAAEAQAAUAQgAIAACAAAQQEAQQ=</HashCode>
+      <FileName>Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Environment" Collapsed="true">
+    <Position X="25.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAACAIAAAAAAABAEAAAAAAAAAAAEAAAAABBAAAAA=</HashCode>
+      <FileName>Environment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.FadeEffect" Collapsed="true">
+    <Position X="2.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAQ=</HashCode>
+      <FileName>FadeEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Game1" Collapsed="true">
+    <Position X="17" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEEAAAAAAAwAAAAAAAAAAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.GameplayScreen" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAgAAAgAAgAAAAAAAAAAAIAABAAAAAAAAAAQ=</HashCode>
+      <FileName>GameplayScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.GameScreen" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAgAAAgAAAAAAAAAAAAAAAAQAAQAAAAAAAAQ=</HashCode>
+      <FileName>GameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Image" Collapsed="true">
+    <Position X="20.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgYCkAGAAAAgAgIgEAZAAAACEIAAABBAAAMACAgAAAQ=</HashCode>
+      <FileName>Image.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ImageEffect" Collapsed="true">
+    <Position X="1.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAAAAEAAAAAAAEAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>ImageEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.InputManager" Collapsed="true">
+    <Position X="20.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAAAAiAAAAAAAUAAAAABCAAAAQAAAABBAAAA=</HashCode>
+      <FileName>InputManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Layer" Collapsed="true">
+    <Position X="18.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAggAAAAAAAAAAAAAAAAIQEAAAAAAAgAQ=</HashCode>
+      <FileName>Layer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Map" Collapsed="true">
+    <Position X="15.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAIAAggAIAIARABECAAAAAAEEACEABEgAwAQ=</HashCode>
+      <FileName>Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.MapObject" Collapsed="true">
+    <Position X="20.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAIIAAAAgIAAABAAABRAAAAQGAAEAA=</HashCode>
+      <FileName>MapObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.MathMethod" Collapsed="true">
+    <Position X="18.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAEAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAACAAAAA=</HashCode>
+      <FileName>MathMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Menu" Collapsed="true">
+    <Position X="17" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAmwAAAAQAAACAAABAgAAAAAAAACAAAgQ=</HashCode>
+      <FileName>Menu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.MenuItem" Collapsed="true">
+    <Position X="18.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAAAAIAAAAAA=</HashCode>
+      <FileName>MenuItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.MenuManager" Collapsed="true">
+    <Position X="22.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAgCAAAAAAAgAEABAAAABAAAAAAAAAAQ=</HashCode>
+      <FileName>MenuManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethod" Collapsed="true">
+    <Position X="10.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAIBAAAAQYEAAAAACAIAAAAAAAAAAIAAIAAAABAAI=</HashCode>
+      <FileName>ObjectFillMethods\ObjectFillMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillArea" Collapsed="true">
+    <Position X="24" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQBAAAA=</HashCode>
+      <FileName>ObjectFillMethods\ObjectFillMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectLayer" Collapsed="true">
+    <Position X="22.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAEAAAAAAAggAAAAAAAAAAJAAACQEQAAMAAAAAgQQ=</HashCode>
+      <FileName>ObjectLayer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectTileSet" Collapsed="true">
+    <Position X="7.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAEAIAAAAEAAAAQ=</HashCode>
+      <FileName>ObjectTileSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Passageway" Collapsed="true">
+    <Position X="29.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACCAQAAAAAAAAAAAAIAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Passageway.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Player" Collapsed="true">
+    <Position X="12.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAEAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Player.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Program" Collapsed="true">
+    <Position X="18.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.RectMethod" Collapsed="true">
+    <Position X="22.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIARAEAAAAAAQAEgAgAAAiAACAAAAIAAAAIAAAgQA=</HashCode>
+      <FileName>RectMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Room" Collapsed="true">
+    <Position X="31" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAAAAABAAAAAAAACAIAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.SplashScreen" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAAAAAgAAAAAAAAAAAAAAABAAAAAAAAAAAAQ=</HashCode>
+      <FileName>SplashScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.SpriteSheetEffect" Collapsed="true">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAEAAAAAAAAAACAAAgAIBCACAAAAAAAgACIAAAAIQ=</HashCode>
+      <FileName>SpriteSheetEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.StealthManager" Collapsed="true">
+    <Position X="24" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAACQAABAAIQARgABEGAACABAAAAAQAAAAAgCCAA=</HashCode>
+      <FileName>StealthManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.StealthMethod" Collapsed="true">
+    <Position X="24" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAAAAAAAAAAAAAAIAAAgAAAIBAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>StealthMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.SuspicionOverlay" Collapsed="true">
+    <Position X="22.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SuspicionOverlay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.Tile" Collapsed="true">
+    <Position X="32.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAABAAAAAAAAAgAAAAAAAAAAAAAQAAAAAAQ=</HashCode>
+      <FileName>Tile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.TileSet" Collapsed="true">
+    <Position X="5.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAQEAAAAABAAAAAAAAAAgAQ=</HashCode>
+      <FileName>TileSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.FloorTileSetSchema" Collapsed="true">
+    <Position X="27.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>TileSetSchema.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.TitleScreen" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQEAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>TitleScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.XmlManager&lt;T&gt;" Collapsed="true">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>XmlManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.BorderFill" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\BorderFill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.Full" Collapsed="true">
+    <Position X="12.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\Full.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.Installation" Collapsed="true">
+    <Position X="12.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\Installation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.Box" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\Rectangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.Scatter" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\Scatter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.SingleTopLeftObject" Collapsed="true">
+    <Position X="12.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\SingleObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.ObjectFillMethods.SingleRandomObject" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ObjectFillMethods\SingleObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenManager" Collapsed="true">
+    <Position X="18.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAgAAAgAAAACAAAIgAABgADABQAAkAAAAAAQ=</HashCode>
+      <FileName>ScreenManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s0.Pace" Collapsed="true">
+    <Position X="11" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AI Behaviour\s0\Pace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Historia.AI_Behaviour.s0.PatrolAtoB" Collapsed="true">
+    <Position X="13" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>AI Behaviour\s0\PatrolAtoB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

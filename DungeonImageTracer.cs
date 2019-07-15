@@ -82,9 +82,9 @@ namespace Historia
             if(EntryRoom >= 0)
             {
                 Texture2D Entry = content.Load<Texture2D>(EntryPath);
-                for (int X = Rooms[EntryRoom].Location[0].X; X < Rooms[EntryRoom].Location[0].Right; X++)
+                for (int X = Rooms[EntryRoom].Location.X; X < Rooms[EntryRoom].Location.Right; X++)
                 {
-                    for(int Y = Rooms[EntryRoom].Location[0].Y; Y < Rooms[EntryRoom].Location[0].Bottom; Y++)
+                    for(int Y = Rooms[EntryRoom].Location.Y; Y < Rooms[EntryRoom].Location.Bottom; Y++)
                     {
                         ScreenManager.Instance.SpriteBatch.Draw(Entry, new Rectangle(X * 8, Y * 8, 8, 8), Color.White);
                     }
@@ -93,9 +93,9 @@ namespace Historia
             if(BossRoom >= 0)
             {
                 Texture2D Boss = content.Load<Texture2D>(BossPath);
-                for (int X = Rooms[BossRoom].Location[0].X; X < Rooms[BossRoom].Location[0].Right; X++)
+                for (int X = Rooms[BossRoom].Location.X; X < Rooms[BossRoom].Location.Right; X++)
                 {
-                    for (int Y = Rooms[BossRoom].Location[0].Y; Y < Rooms[BossRoom].Location[0].Bottom; Y++)
+                    for (int Y = Rooms[BossRoom].Location.Y; Y < Rooms[BossRoom].Location.Bottom; Y++)
                     {
                         ScreenManager.Instance.SpriteBatch.Draw(Boss, new Rectangle(X * 8, Y * 8, 8, 8), Color.White);
                     }
@@ -104,9 +104,9 @@ namespace Historia
             if (StairsRoom >= 0)
             {
                 Texture2D Stairs = content.Load<Texture2D>(StairsPath);
-                for (int X = Rooms[StairsRoom].Location[0].X; X < Rooms[StairsRoom].Location[0].Right; X++)
+                for (int X = Rooms[StairsRoom].Location.X; X < Rooms[StairsRoom].Location.Right; X++)
                 {
-                    for (int Y = Rooms[StairsRoom].Location[0].Y; Y < Rooms[StairsRoom].Location[0].Bottom; Y++)
+                    for (int Y = Rooms[StairsRoom].Location.Y; Y < Rooms[StairsRoom].Location.Bottom; Y++)
                     {
                         ScreenManager.Instance.SpriteBatch.Draw(Stairs, new Rectangle(X * 8, Y * 8, 8, 8), Color.White);
                     }

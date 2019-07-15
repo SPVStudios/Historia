@@ -41,18 +41,18 @@ namespace Historia
 
                 List<Rectangle> CompassChecks = new List<Rectangle>
                 {
-                    new Rectangle(This.Location[0].X, 0, This.Location[0].Width, This.Location[0].Y),
+                    new Rectangle(This.Location.X, 0, This.Location.Width, This.Location.Y),
                     //north check from top of room to top of map
 
-                    new Rectangle((This.Location[0].Right), This.Location[0].Y,
-                        (int)CurrentMapDimensions.X - (This.Location[0].Right), This.Location[0].Height),
+                    new Rectangle((This.Location.Right), This.Location.Y,
+                        (int)CurrentMapDimensions.X - (This.Location.Right), This.Location.Height),
                     //east check from the right hand side of the room to the right-most reaches of the map
 
-                    new Rectangle(This.Location[0].X, (This.Location[0].Bottom),
-                        This.Location[0].Width, (int)CurrentMapDimensions.Y - (This.Location[0].Bottom)),
+                    new Rectangle(This.Location.X, (This.Location.Bottom),
+                        This.Location.Width, (int)CurrentMapDimensions.Y - (This.Location.Bottom)),
                     //south check from the bottom of the room to the bottom of the map
 
-                    new Rectangle(0, This.Location[0].Y, This.Location[0].X, This.Location[0].Height)
+                    new Rectangle(0, This.Location.Y, This.Location.X, This.Location.Height)
                 };
                 //west chek from the left side of the room to the west-most reaches of the map
 
@@ -77,7 +77,7 @@ namespace Historia
                     {
                         if (I != J)//unless they are the same room...
                         {
-                            if (C_Check.Intersects(Rooms[J].Location[0]))
+                            if (C_Check.Intersects(Rooms[J].Location))
                             {
                                 I_Overlaps++;
                                 if (!RoomsAlreadyConnected[I].Contains(J))
@@ -105,11 +105,11 @@ namespace Historia
                         {
 
                             int BestIndex = OverlapIndexes[0];
-                            int Score = ScoreRoomConnection(Rooms[OverlapIndexes[0]].Location[0], CompassCheckCriteria[Check]);
+                            int Score = ScoreRoomConnection(Rooms[OverlapIndexes[0]].Location, CompassCheckCriteria[Check]);
                             for (int RoomID = 1; RoomID < OverlapIndexes.Count; RoomID++)
                             {
                                 int NewChallenger = ScoreRoomConnection(
-                                    Rooms[OverlapIndexes[RoomID]].Location[0], CompassCheckCriteria[Check]);
+                                    Rooms[OverlapIndexes[RoomID]].Location, CompassCheckCriteria[Check]);
 
                                 if (NewChallenger > Score)
                                 {
@@ -130,8 +130,8 @@ namespace Historia
                             //see what Y co-ords they have in common
                             int upperBound = 0;
                             int LowerBound = 0;
-                            FindCommonRange(ref upperBound, ref LowerBound,Rooms[I].Location[0].Bottom-1,Rooms[I].Location[0].Top,
-                               Rooms[TargetIndex].Location[0].Bottom-1,Rooms[TargetIndex].Location[0].Top);
+                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location.Bottom - 1, Rooms[I].Location.Top,
+                               Rooms[TargetIndex].Location.Bottom - 1, Rooms[TargetIndex].Location.Top);
                             int Y_Coord;
                             if (upperBound - LowerBound > 3)
                             {
@@ -140,16 +140,16 @@ namespace Historia
                             }
                             else
                             {
-                                Y_Coord = (upperBound + LowerBound) / 2 ;//finds the average if a small overlap.
+                                Y_Coord = (upperBound + LowerBound) / 2;//finds the average if a small overlap.
                             }
-                            int theWidth = Rooms[I].Location[0].Left - Rooms[TargetIndex].Location[0].Right;
-                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(Rooms[I].Location[0].Left, Y_Coord), I);
-                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(Rooms[TargetIndex].Location[0].Right-1, Y_Coord), TargetIndex);
+                            int theWidth = Rooms[I].Location.Left - Rooms[TargetIndex].Location.Right;
+                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(Rooms[I].Location.Left, Y_Coord), I);
+                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(Rooms[TargetIndex].Location.Right - 1, Y_Coord), TargetIndex);
 
-                            Passageway ThisP = new Passageway((new Rectangle(Rooms[TargetIndex].Location[0].Right, Y_Coord, theWidth, 1)), AwayEnd, HomeEnd);
+                            Passageway ThisP = new Passageway((new Rectangle(Rooms[TargetIndex].Location.Right, Y_Coord, theWidth, 1)), AwayEnd, HomeEnd);
 
 
-                            VerifyPassage(Rooms[I].Location[0],Rooms[TargetIndex].Location[0],ThisP);
+                            VerifyPassage(Rooms[I].Location, Rooms[TargetIndex].Location, ThisP);
 
                             PossiblePassages.Add(ThisP);
 
@@ -160,24 +160,24 @@ namespace Historia
                             int upperBound = 0;
                             int LowerBound = 0;
                             int Y_Coord;
-                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location[0].Bottom-1, Rooms[I].Location[0].Top,
-                                Rooms[TargetIndex].Location[0].Bottom-1, Rooms[TargetIndex].Location[0].Top);
+                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location.Bottom - 1, Rooms[I].Location.Top,
+                                Rooms[TargetIndex].Location.Bottom - 1, Rooms[TargetIndex].Location.Top);
                             if (upperBound - LowerBound > 3)
                             {
                                 Y_Coord = R.Next(LowerBound + 1, upperBound - 1);//selects it at random from the overlap,
                             } // ignoring the border tiles, if > 3 wide.
                             else
                             {
-                                Y_Coord = (upperBound + LowerBound) / 2 ;//finds the average if a small overlap.
+                                Y_Coord = (upperBound + LowerBound) / 2;//finds the average if a small overlap.
                             }
-                            int theWidth = Rooms[TargetIndex].Location[0].Left - Rooms[I].Location[0].Right;//can be just "right" here
-                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(Rooms[I].Location[0].Right - 1, Y_Coord), I);
-                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(Rooms[TargetIndex].Location[0].Left, Y_Coord), TargetIndex);
+                            int theWidth = Rooms[TargetIndex].Location.Left - Rooms[I].Location.Right;//can be just "right" here
+                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(Rooms[I].Location.Right - 1, Y_Coord), I);
+                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(Rooms[TargetIndex].Location.Left, Y_Coord), TargetIndex);
 
                             Passageway ThisP = new Passageway(
-                                (new Rectangle(Rooms[I].Location[0].Right, Y_Coord, theWidth, 1)), HomeEnd, AwayEnd);
+                                (new Rectangle(Rooms[I].Location.Right, Y_Coord, theWidth, 1)), HomeEnd, AwayEnd);
 
-                            VerifyPassage(Rooms[I].Location[0],Rooms[TargetIndex].Location[0],ThisP);
+                            VerifyPassage(Rooms[I].Location, Rooms[TargetIndex].Location, ThisP);
 
                             PossiblePassages.Add(ThisP);
 
@@ -187,8 +187,8 @@ namespace Historia
                             //see what X co-ords they have in common
                             int upperBound = 0;
                             int LowerBound = 0;
-                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location[0].Right-1, Rooms[I].Location[0].Left,
-                                Rooms[TargetIndex].Location[0].Right-1, Rooms[TargetIndex].Location[0].Left);
+                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location.Right - 1, Rooms[I].Location.Left,
+                                Rooms[TargetIndex].Location.Right - 1, Rooms[TargetIndex].Location.Left);
                             int X_Coord;
                             if (upperBound - LowerBound > 3)
                             {
@@ -200,18 +200,18 @@ namespace Historia
                                 X_Coord = (upperBound + LowerBound) / 2;//finds the average if a small overlap.
                             }
 
-                            int theHeight = Rooms[I].Location[0].Top - Rooms[TargetIndex].Location[0].Bottom ;
-                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[I].Location[0].Top), I);
-                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[TargetIndex].Location[0].Bottom-1), TargetIndex);
+                            int theHeight = Rooms[I].Location.Top - Rooms[TargetIndex].Location.Bottom;
+                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[I].Location.Top), I);
+                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[TargetIndex].Location.Bottom - 1), TargetIndex);
 
                             Passageway ThisP = new Passageway(
-                                (new Rectangle(X_Coord, Rooms[TargetIndex].Location[0].Bottom, 1, theHeight)), AwayEnd, HomeEnd);
+                                (new Rectangle(X_Coord, Rooms[TargetIndex].Location.Bottom, 1, theHeight)), AwayEnd, HomeEnd);
 
-                            VerifyPassage(Rooms[I].Location[0],Rooms[TargetIndex].Location[0],ThisP);
+                            VerifyPassage(Rooms[I].Location, Rooms[TargetIndex].Location, ThisP);
 
                             PossiblePassages.Add(ThisP)
                                 ;
-                            
+
                         }
                         else if (CompassCheckCriteria[Check].Y == -1) //South Check
                         {
@@ -219,8 +219,8 @@ namespace Historia
                             int upperBound = 0;
                             int LowerBound = 0;
                             int X_Coord;
-                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location[0].Right-1, Rooms[I].Location[0].Left,
-                                Rooms[TargetIndex].Location[0].Right-1, Rooms[TargetIndex].Location[0].Left);
+                            FindCommonRange(ref upperBound, ref LowerBound, Rooms[I].Location.Right - 1, Rooms[I].Location.Left,
+                                Rooms[TargetIndex].Location.Right - 1, Rooms[TargetIndex].Location.Left);
 
                             if (upperBound - LowerBound > 3)
                             {
@@ -232,14 +232,14 @@ namespace Historia
                                 X_Coord = (upperBound - LowerBound) / 2 + LowerBound;//finds the average if a small overlap.
                             }
 
-                            int theHeight = Rooms[TargetIndex].Location[0].Top - Rooms[I].Location[0].Bottom;
-                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[I].Location[0].Bottom - 1), I);
-                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[TargetIndex].Location[0].Top), TargetIndex);
+                            int theHeight = Rooms[TargetIndex].Location.Top - Rooms[I].Location.Bottom;
+                            Passageway.Endpoint HomeEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[I].Location.Bottom - 1), I);
+                            Passageway.Endpoint AwayEnd = new Passageway.Endpoint(new Vector2(X_Coord, Rooms[TargetIndex].Location.Top), TargetIndex);
 
                             Passageway ThisP = new Passageway(
-                                (new Rectangle(X_Coord, Rooms[I].Location[0].Bottom, 1, theHeight)), HomeEnd, AwayEnd);
+                                (new Rectangle(X_Coord, Rooms[I].Location.Bottom, 1, theHeight)), HomeEnd, AwayEnd);
 
-                            VerifyPassage(Rooms[I].Location[0], Rooms[TargetIndex].Location[0], ThisP);
+                            VerifyPassage(Rooms[I].Location, Rooms[TargetIndex].Location, ThisP);
 
                             PossiblePassages.Add(ThisP);
 
@@ -275,13 +275,13 @@ namespace Historia
             }
 
             //Part D: Add the data of the end points to each Room.
-            for(int I = 0; I < Passages.Count; I++)
+            for (int I = 0; I < Passages.Count; I++)
             {
                 Passageway P = Passages[I];
                 Rooms[P.End1.EndPointID].AddEntryPoint(P.End2.EndPointID, I, P.End1.Location);
 
                 Rooms[P.End2.EndPointID].AddEntryPoint(P.End1.EndPointID, I, P.End2.Location);
-            } 
+            }
 
 
             return Passages;
@@ -295,7 +295,7 @@ namespace Historia
         {
 
             Random R = new Random();
-            
+
             Rooms = new List<Room>();
             Passageways = new List<Passageway>();
             MapSize = Vector2.Zero;
@@ -453,14 +453,14 @@ namespace Historia
                         Y_Offset = 0;
                     }
                 }
-                
-                
+
+
                 Rooms.Add(new Room(
                     new Rectangle(Section.X + X_Offset, Section.Y + Y_Offset,
                     Section.Width - (X_Offset + Shrink_X), Section.Height - (Y_Offset + Shrink_Y))
                     ));
             }
-            
+
 
 
             //stage 3: Double the size of the rooms
@@ -469,15 +469,15 @@ namespace Historia
             for (int Z = 0; Z < Rooms.Count; Z++)
             {
                 Room ThisRoom = Rooms[Z];
-                for (int A = 0; A < ThisRoom.Location.Count; A++)
-                {
-                    Rectangle ThisLocation = ThisRoom.Location[A];
-                    ThisLocation.X = (ThisLocation.X * 2) + 2;
-                    ThisLocation.Y = (ThisLocation.Y * 2) + 2;
-                    ThisLocation.Width = ThisLocation.Width * 2;
-                    ThisLocation.Height = ThisLocation.Height * 2;
-                    ThisRoom.Location[A] = ThisLocation;
-                }
+
+                Rectangle ThisLocation = ThisRoom.Location;
+                ThisLocation.X = (ThisLocation.X * 2) + 2;
+                ThisLocation.Y = (ThisLocation.Y * 2) + 2;
+                ThisLocation.Width = ThisLocation.Width * 2;
+                ThisLocation.Height = ThisLocation.Height * 2;
+                ThisRoom.ChangeLocation(ThisLocation);
+
+
                 Rooms[Z] = ThisRoom;
             }
 
@@ -485,18 +485,19 @@ namespace Historia
 
             Passageways = CreatePassageways(ref Rooms, new Vector2((HalfTheFloorMapDimensions.X * 2) + 4, (HalfTheFloorMapDimensions.Y * 2) + 4));
 
-            
+
             //4a: assign an entry room
             int Size = int.MaxValue;
             int Select = -1;
             for (int I = 0; I < Rooms.Count; I++)
             {
-                int ThisSize = Rooms[I].Location[0].Width * Rooms[I].Location[0].Height;
+                int ThisSize = Rooms[I].Location.Width * Rooms[I].Location.Height;
                 if (ThisSize < Size && ThisSize >= 10)
-                { int SpacesInARow = 0;
-                    for (int X = Rooms[I].Location[0].X; X < Rooms[I].Location[0].Right; X++)
+                {
+                    int SpacesInARow = 0;
+                    for (int X = Rooms[I].Location.X; X < Rooms[I].Location.Right; X++)
                     {
-                        if (IsEntryPointHere(Rooms[I].EntryPoints, new Vector2(X, Rooms[I].Location[0].Y)))
+                        if (IsEntryPointHere(Rooms[I].EntryPoints, new Vector2(X, Rooms[I].Location.Y)))
                         {
                             SpacesInARow = 0;
                         }
@@ -527,16 +528,15 @@ namespace Historia
 
             foreach (Room Room in Rooms)
             {
-                foreach (Rectangle thisLocation in Room.Location)
+
+                for (int I = 0; I < Room.Location.Width; I++)
                 {
-                    for (int I = 0; I < thisLocation.Width; I++)
+                    for (int J = 0; J < Room.Location.Height; J++)
                     {
-                        for (int J = 0; J < thisLocation.Height; J++)
-                        {
-                            floorMap[thisLocation.X + I, thisLocation.Y + J] = true;
-                        }
+                        floorMap[Room.Location.X + I, Room.Location.Y + J] = true;
                     }
                 }
+
             }
 
             foreach (Passageway Passage in Passageways)
@@ -613,12 +613,12 @@ namespace Historia
 
         private static int ScoreRoomConnection(Rectangle TargetRoom, Vector2 Criteria)
         {
-            
+
             if (Criteria.X == 1)// a horizontal check
             {
                 return TargetRoom.Right;
             }
-            else if(Criteria.X == -1)
+            else if (Criteria.X == -1)
             {
                 return TargetRoom.Left;
             }
@@ -626,7 +626,7 @@ namespace Historia
             {
                 return TargetRoom.Bottom;
             }
-            else if(Criteria.Y == -1)
+            else if (Criteria.Y == -1)
             {
                 return TargetRoom.Top;
             }
@@ -707,7 +707,7 @@ namespace Historia
                         List<int> Tree1 = Trees[End1_Tree];
                         List<int> Tree2 = Trees[End2_Tree];
                         Tree1.AddRange(Tree2);
-                        if(End1_Tree < End2_Tree)
+                        if (End1_Tree < End2_Tree)
                         {
                             Trees.RemoveAt(End1_Tree);
                             Trees.RemoveAt(End2_Tree - 1);
@@ -717,7 +717,7 @@ namespace Historia
                             Trees.RemoveAt(End2_Tree);
                             Trees.RemoveAt(End1_Tree - 1);
                         }
-                        
+
                         Trees.Add(Tree1);
                     }
                     else
@@ -743,7 +743,7 @@ namespace Historia
             int Discrepancy = 0;
             while (true)
             {
-                if(floormap[X, Y - Discrepancy] == false)
+                if (floormap[X, Y - Discrepancy] == false)
                 {
                     if (floormap[X + Offset, Y - Discrepancy] == true)
                     {
@@ -766,7 +766,7 @@ namespace Historia
                 {
                     return -1;//this void ran out before the other wall actually ran into a void- it's a vertical corridor, not a step up
                 }
-                
+
             }
         }
 
@@ -809,74 +809,7 @@ namespace Historia
             int Height = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
             int Width = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
 
-            Environment e = new Environment(true,R);
-
-
-            List<Room> MapRooms = new List<Room>();
-            List<Passageway> Passages = new List<Passageway>();
-            Vector2 MapSize = new Vector2();
-            bool[,] floorMap;
-            while (true)
-            {
-                if(DungeonCreator.CreateFloorMap(new Vector2(4, 7),
-                    new Vector2(2, 2), new Vector2(Height, Width), ref MapRooms,
-                    ref Passages, ref MapSize, out floorMap))
-                {
-                    break;
-                }//else try again. This allows invalid maps to be rejected rather than starting over.
-            }
-            TileSet floorTileSet = new TileSet();
-            TileSet wallsTileSet = new TileSet();
-            TileSet entryTileSet = new TileSet();
-            ObjectTileSet Objects = new ObjectTileSet();
-            ObjectTileSet SmallObjectSet = new ObjectTileSet();
-            ObjectTileSet LargeObjectSet = new ObjectTileSet();
-            XmlManager<TileSet> tileSetLoad = new XmlManager<TileSet>();
-            floorTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/"+e.Name+"_Floors.xml");
-            wallsTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Walls.xml");
-            entryTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Entry.xml");
-
-            XmlManager<ObjectTileSet> ObjLoad = new XmlManager<ObjectTileSet>();
-            Objects = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects.xml");
-            SmallObjectSet = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects_Small.xml");
-            LargeObjectSet = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects_Large.xml");
-            floorTileSet.LoadContent();
-            wallsTileSet.LoadContent();
-            entryTileSet.LoadContent();
-            Objects.LoadContent();
-            SmallObjectSet.LoadContent();
-            LargeObjectSet.LoadContent();
-            
-
-            int Version = DungeonImageTracer.FindFirstVersion();
-            DungeonImageTracer.CreateandSaveFloorMapImage(floorMap, MapSize, Version, MapRooms);
-
-            Map map = DungeonCreator.CreateMap(MapSize, floorMap, wallsTileSet, floorTileSet, entryTileSet,
-                new List<ObjectTileSet>() { Objects, SmallObjectSet, LargeObjectSet }, MapRooms, Passages, e.AcceptedEnemyTypes);
-            DungeonImageTracer.CreateandSaveFullMap(map, Version, true);
-            map.Name = "The Unknown Ruins";//generic name as not loaded from an actual GameState Location
-            return map;
-        }
-
-        public static Map CreateMap(int SizeOutof5,GameState gameState)//creates a new map relying if present on the GameState
-        {
-            Random R = new Random();
-            int Height = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
-            int Width = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
-
-            Environment e;
-            string Name;
-            if (gameState.EnteringDungeon)
-            {
-                e = gameState.WorldMap.Dungeons[gameState.WorldMapLocation].Env;
-                Name = gameState.DungeonName;
-            }
-            else
-            {
-               e = new Environment(true, R);
-                Name = "THe Unknown Ruins";
-            }
-           
+            Environment e = new Environment(true, R);
 
 
             List<Room> MapRooms = new List<Room>();
@@ -916,7 +849,74 @@ namespace Historia
 
 
             int Version = DungeonImageTracer.FindFirstVersion();
-            DungeonImageTracer.CreateandSaveFloorMapImage(floorMap, MapSize, Version,MapRooms);
+            DungeonImageTracer.CreateandSaveFloorMapImage(floorMap, MapSize, Version, MapRooms);
+
+            Map map = DungeonCreator.CreateMap(MapSize, floorMap, wallsTileSet, floorTileSet, entryTileSet,
+                new List<ObjectTileSet>() { Objects, SmallObjectSet, LargeObjectSet }, MapRooms, Passages, e.AcceptedEnemyTypes);
+            DungeonImageTracer.CreateandSaveFullMap(map, Version, true);
+            map.Name = "The Unknown Ruins";//generic name as not loaded from an actual GameState Location
+            return map;
+        }
+
+        public static Map CreateMap(int SizeOutof5, GameState gameState)//creates a new map relying if present on the GameState
+        {
+            Random R = new Random();
+            int Height = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
+            int Width = R.Next((SizeOutof5 - 1) * 4, SizeOutof5 * 4) + 6;
+
+            Environment e;
+            string Name;
+            if (gameState.EnteringDungeon)
+            {
+                e = gameState.WorldMap.Dungeons[gameState.WorldMapLocation].Env;
+                Name = gameState.DungeonName;
+            }
+            else
+            {
+                e = new Environment(true, R);
+                Name = "THe Unknown Ruins";
+            }
+
+
+
+            List<Room> MapRooms = new List<Room>();
+            List<Passageway> Passages = new List<Passageway>();
+            Vector2 MapSize = new Vector2();
+            bool[,] floorMap;
+            while (true)
+            {
+                if (DungeonCreator.CreateFloorMap(new Vector2(4, 7),
+                    new Vector2(2, 2), new Vector2(Height, Width), ref MapRooms,
+                    ref Passages, ref MapSize, out floorMap))
+                {
+                    break;
+                }//else try again. This allows invalid maps to be rejected rather than starting over.
+            }
+            TileSet floorTileSet = new TileSet();
+            TileSet wallsTileSet = new TileSet();
+            TileSet entryTileSet = new TileSet();
+            ObjectTileSet Objects = new ObjectTileSet();
+            ObjectTileSet SmallObjectSet = new ObjectTileSet();
+            ObjectTileSet LargeObjectSet = new ObjectTileSet();
+            XmlManager<TileSet> tileSetLoad = new XmlManager<TileSet>();
+            floorTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Floors.xml");
+            wallsTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Walls.xml");
+            entryTileSet = tileSetLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Entry.xml");
+
+            XmlManager<ObjectTileSet> ObjLoad = new XmlManager<ObjectTileSet>();
+            Objects = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects.xml");
+            SmallObjectSet = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects_Small.xml");
+            LargeObjectSet = ObjLoad.Load("Load/Gameplay/TileSets/" + e.Name + "_Objects_Large.xml");
+            floorTileSet.LoadContent();
+            wallsTileSet.LoadContent();
+            entryTileSet.LoadContent();
+            Objects.LoadContent();
+            SmallObjectSet.LoadContent();
+            LargeObjectSet.LoadContent();
+
+
+            int Version = DungeonImageTracer.FindFirstVersion();
+            DungeonImageTracer.CreateandSaveFloorMapImage(floorMap, MapSize, Version, MapRooms);
 
             Map map = DungeonCreator.CreateMap(MapSize, floorMap, wallsTileSet, floorTileSet, entryTileSet,
                 new List<ObjectTileSet>() { Objects, SmallObjectSet, LargeObjectSet }, MapRooms, Passages, e.AcceptedEnemyTypes);
@@ -929,9 +929,9 @@ namespace Historia
 
 
         public static Map CreateMap(Vector2 floorMapDimensions, bool[,] floorMap,
-            TileSet WallTileSet, TileSet FloorTileSet, TileSet EntryTileSet, 
-            List<ObjectTileSet> ObjectTileSets, List<Room> Rooms, 
-            List<Passageway> Passageways, List<string> EnemyTypes )
+            TileSet WallTileSet, TileSet FloorTileSet, TileSet EntryTileSet,
+            List<ObjectTileSet> ObjectTileSets, List<Room> Rooms,
+            List<Passageway> Passageways, List<string> EnemyTypes)
         {
             ///<Overview>
             /// 
@@ -979,7 +979,7 @@ namespace Historia
             int[,] TileTypeMap = new int[(int)floorMapDimensions.X, (int)floorMapDimensions.Y];
 
 
-            for (int X = 1; X < floorMapDimensions.X-1; X++)
+            for (int X = 1; X < floorMapDimensions.X - 1; X++)
             //After the above process giving a FloorMap with a built-in border around it, of 1 tile every way, that is guaranteed a value of false
             // There is no need to check these values. This 1-tile gap acts as a buffer.
             {
@@ -996,9 +996,9 @@ namespace Historia
                     }
                     else
                     {
-                        if (floorMap[X, Y-1] == true)
+                        if (floorMap[X, Y - 1] == true)
                         {
-                            if (floorMap[X -1, Y] == true)//Inverse Bottom Left
+                            if (floorMap[X - 1, Y] == true)//Inverse Bottom Left
                             {
                                 TileTypeMap[X, Y] = 17;
                             }
@@ -1011,15 +1011,15 @@ namespace Historia
                                 TileTypeMap[X, Y] = 5;
                             }
                         }
-                        else if (floorMap[X , Y + 1] == true)//if there is a floor tile beneath this one...
+                        else if (floorMap[X, Y + 1] == true)//if there is a floor tile beneath this one...
                         {
-                            if (floorMap[X + 1, Y ] == true)//L series...
+                            if (floorMap[X + 1, Y] == true)//L series...
                             {
                                 discrepancy = FindDiscrepancy(floorMap, X, Y, 1);
                                 TileTypeMap[X, Y] = 6;
-                                TileTypeMap[X , Y - 1] = 7;
-                                TileTypeMap[X , Y - 2] = 8;
-                                if(discrepancy > 0)
+                                TileTypeMap[X, Y - 1] = 7;
+                                TileTypeMap[X, Y - 2] = 8;
+                                if (discrepancy > 0)
                                 {
                                     if (discrepancy > 1)
                                     {
@@ -1036,16 +1036,16 @@ namespace Historia
                                     // Isn't a step up, but a boundary between a room and a vertical corridor
                                     Y -= 2;
                                 }
-                                
+
                                 discrepancy = 0;
                             }
                             else if (floorMap[X - 1, Y] == true)//R series...
                             {
                                 discrepancy = FindDiscrepancy(floorMap, X, Y, -1);//looks left
                                 TileTypeMap[X, Y] = 9;
-                                TileTypeMap[X , Y-1] = 10;
-                                TileTypeMap[X , Y-2] = 11;
-                                if(discrepancy > 0)
+                                TileTypeMap[X, Y - 1] = 10;
+                                TileTypeMap[X, Y - 2] = 11;
+                                if (discrepancy > 0)
                                 {
                                     if (discrepancy > 1)
                                     {
@@ -1062,14 +1062,14 @@ namespace Historia
                                     // Isn't a step up, but a boundary between a room and a vertical corridor
                                     Y -= 2;
                                 }
-                               
+
                                 discrepancy = 0;
                             }
                             else//M series
                             {
                                 TileTypeMap[X, Y] = 12;
-                                TileTypeMap[X, Y-1] = 13;
-                                TileTypeMap[X, Y-2] = 14;
+                                TileTypeMap[X, Y - 1] = 13;
+                                TileTypeMap[X, Y - 2] = 14;
                                 Y -= 2;
                             }
                         }
@@ -1089,7 +1089,7 @@ namespace Historia
                         {
                             TileTypeMap[X, Y] = 3;
                         }
-                        else if (floorMap[X + 1, Y +1])//top left sections
+                        else if (floorMap[X + 1, Y + 1])//top left sections
                         {
                             TileTypeMap[X, Y] = 1;
                             TileTypeMap[X, Y - 1] = 1;
@@ -1123,10 +1123,10 @@ namespace Historia
             {
                 int SpacesInARow = 0;
                 List<int> PossXs = new List<int>();//all possible centre points for the entrance will be placed here.
-                Rectangle Room = Rooms[EntryRoom].Location[0];
+                Rectangle Room = Rooms[EntryRoom].Location;
                 for (int X = Room.X; X < Room.Right; X++)
                 {
-                    if (IsEntryPointHere(Rooms[EntryRoom].EntryPoints, new Vector2(X, Rooms[EntryRoom].Location[0].Y)))
+                    if (IsEntryPointHere(Rooms[EntryRoom].EntryPoints, new Vector2(X, Rooms[EntryRoom].Location.Y)))
                     {
                         SpacesInARow = 0;
                     }
@@ -1140,24 +1140,24 @@ namespace Historia
                     {
                         PossXs.Add(X - 2);
                         SpacesInARow = 4;
-                        
+
                     }
                 }
-                int Choice = PossXs[R.Next(0,PossXs.Count)];
-                TileTypeMap[Choice, Room.Y-1] = 19;//TRANSITION TILE.
-                EntryLoc = new Vector2(Choice, Room.Y-1);
+                int Choice = PossXs[R.Next(0, PossXs.Count)];
+                TileTypeMap[Choice, Room.Y - 1] = 19;//TRANSITION TILE.
+                EntryLoc = new Vector2(Choice, Room.Y - 1);
             }
-                
+
             //step 1 complete.
 
             //step 2: Place objects in valid places on the map
 
             //creat a new layer for Objects with the Object Tileset(s).
             ObjectLayer Objects = new ObjectLayer(ObjectTileSets, new List<MapObject>(), TDimensions, floorMapDimensions);
-            
+
             int[,] OverallObjectLocations = new int[(int)floorMapDimensions.X, (int)floorMapDimensions.Y];
 
-            
+
 
             //load all object fill methods
             const string FillDictPath = "ObjectFillMethods/FillMethodDirectory.xml";
@@ -1171,7 +1171,7 @@ namespace Historia
             {
                 string Class = Method.InnerText;
                 string YesNo = Method.Attributes["IsGP"].Value;
-                
+
                 ObjectFillMethod This = (ObjectFillMethod)Activator.CreateInstance(Type.GetType("Historia.ObjectFillMethods." + Class));
                 if (YesNo == "Yes")
                 {
@@ -1206,7 +1206,7 @@ namespace Historia
                 /// 4: BOTH number 3 and 1 of the other 2.
                 /// 
                 /// </overview>
-                int roomSize = I.Location[0].Width * I.Location[0].Height;
+                int roomSize = I.Location.Width * I.Location.Height;
                 int banmethod;
 
 
@@ -1224,7 +1224,7 @@ namespace Historia
                 }
                 else if (roomSize > 25)
                 {
-                    if(I.EntryPoints.Count > 1 && TossCoin(R))
+                    if (I.EntryPoints.Count > 1 && TossCoin(R))
                     {//50:50 chance of being method 4 if there is 2+ entry points to the room
                         banmethod = 4;
                     }
@@ -1263,7 +1263,7 @@ namespace Historia
                         break;
                 }
 
-                if(I.Purpose == "Entry")
+                if (I.Purpose == "Entry")
                 {
                     BannedAreas.Add(new Rectangle((int)EntryLoc.X, (int)EntryLoc.Y, 1, 2));
                 }
@@ -1276,14 +1276,14 @@ namespace Historia
                 {
                     foreach (ObjectFillMethod Method in PurposeFillMethods)
                     {
-                        if(NumObjectfillmethods > 0 && Method.SpecificPurpose == I.Purpose)
+                        if (NumObjectfillmethods > 0 && Method.SpecificPurpose == I.Purpose)
                         {
                             Method.FillRoom(I, ref CreatedforI, ObjectTileSets, R, ref AlreadyFilledI);
                             NumObjectfillmethods--;//apply one less other method
                         }
                     }
                 }
-                if(NumObjectfillmethods > 0)//if any methods are left to be carried out
+                if (NumObjectfillmethods > 0)//if any methods are left to be carried out
                 {
                     //randomly the predetermined number of object-filling effects to the room, if the room has no assigned purpose,
                     // or the number of 
@@ -1355,13 +1355,13 @@ namespace Historia
                     */
                     foreach (Rectangle Ban in BannedAreas)
                     {
-                        
+
                         if (RectMethod.TileIntersects(Presence, Ban))
                         {
-                                //delete the object
-                                CreatedforI.RemoveAt(O);
-                                O--;
-                                break;
+                            //delete the object
+                            CreatedforI.RemoveAt(O);
+                            O--;
+                            break;
                         }
                     }
                 }
@@ -1372,11 +1372,6 @@ namespace Historia
                 }
 
             }//next room
-
-
-
-
-
 
 
 
@@ -1406,7 +1401,7 @@ namespace Historia
              */
 
             Tile[,] LayerTiles = new Tile[(int)floorMapDimensions.X, (int)floorMapDimensions.Y];
-            
+
 
             for (int X = 0; X < floorMapDimensions.X; X++)
             {
@@ -1431,8 +1426,8 @@ namespace Historia
                     else//not less than 20
                     {
                         WhichTileSet = 1;//the floor tile set
-                        int FloorTileTheme = (TileTypeMap[X, Y] / 20)-1; // the base type would be type 1, NOT TYPE 0, hence deducting 1 afterwards.
-                        
+                        int FloorTileTheme = (TileTypeMap[X, Y] / 20) - 1; // the base type would be type 1, NOT TYPE 0, hence deducting 1 afterwards.
+
                         int FloorTileType = TileTypeMap[X, Y] % 20;
                         if (FloorTileType == 0)
                         {
@@ -1475,9 +1470,9 @@ namespace Historia
             //Correct the tiles that will make up the exit
             int EntranceWidth = EntryTileSet.Image.Texture.Width / (int)EntryTileSet.TileDimensions.X;
             int EntranceHeight = EntryTileSet.Image.Texture.Height / (int)EntryTileSet.TileDimensions.Y;
-            for(int X = 0; X < EntranceWidth; X++)
+            for (int X = 0; X < EntranceWidth; X++)
             {
-                for(int Y = 0; Y < EntranceHeight; Y++)
+                for (int Y = 0; Y < EntranceHeight; Y++)
                 {
                     Tile Override = new Tile();
                     Override.LoadContent(new Vector2(32 * X, 32 * Y), 2);
@@ -1568,7 +1563,7 @@ namespace Historia
                             Collision_Map[X, Y] = 2;
                         }
                     }
-                    else if(new Vector2(X,Y) == EntryLoc)
+                    else if (new Vector2(X, Y) == EntryLoc)
                     {
                         Collision_Map[X, Y] = 21;
                     }
@@ -1605,24 +1600,24 @@ namespace Historia
             List<Layer> Layers = new List<Layer>()
             {
                 BaseLayer
-                
+
             };
             Map map = new Map(Layers, Objects, Collision_Map, floorMapDimensions, TDimensions, Rooms, Passageways, EnemyTypes);
             map.EntryLoc = EntryLoc;
-            return map ;
+            return map;
 
         }
 
-        private  static List<Rectangle> CreateGuaranteedPath1(Room R, List<Passageway> Passages)
+        private static List<Rectangle> CreateGuaranteedPath1(Room R, List<Passageway> Passages)
         {
             List<Rectangle> AreasToAvoid = new List<Rectangle>();
 
-            Vector2 middleOfRoom = new Vector2(R.Location[0].Left + (int)(R.Location[0].Width / 2),
-                R.Location[0].Top + (int)(R.Location[0].Height / 2));
+            Vector2 middleOfRoom = new Vector2(R.Location.Left + (int)(R.Location.Width / 2),
+                R.Location.Top + (int)(R.Location.Height / 2));
 
-            foreach(Room.EntryPoint E in R.EntryPoints)
+            foreach (Room.EntryPoint E in R.EntryPoints)
             {
-                AreasToAvoid.AddRange(CarvePathAtoB(Passages[E.PassagewayUsing].IsVertical,E.Location,middleOfRoom));
+                AreasToAvoid.AddRange(CarvePathAtoB(Passages[E.PassagewayUsing].IsVertical, E.Location, middleOfRoom));
             }
             return AreasToAvoid;
         }
@@ -1633,8 +1628,8 @@ namespace Historia
             Random D = new Random();
 
 
-            Vector2 randomSpot = new Vector2(D.Next(R.Location[0].Left, R.Location[0].Right - 1),
-                D.Next(R.Location[0].Top, R.Location[0].Bottom - 1));
+            Vector2 randomSpot = new Vector2(D.Next(R.Location.Left, R.Location.Right - 1),
+                D.Next(R.Location.Top, R.Location.Bottom - 1));
 
             foreach (Room.EntryPoint E in R.EntryPoints)
             {
@@ -1643,8 +1638,8 @@ namespace Historia
                 if (distance > 12)
                 {
                     //2 splits
-                    
-                    int FirstX = D.Next(Math.Min(0, (int)wayToSpot.X / 2),Math.Max(0,(int)wayToSpot.X / 2));
+
+                    int FirstX = D.Next(Math.Min(0, (int)wayToSpot.X / 2), Math.Max(0, (int)wayToSpot.X / 2));
                     int FirstY = D.Next(Math.Min(0, (int)wayToSpot.Y / 2), Math.Max(0, (int)wayToSpot.Y / 2));
                     int SecondX = D.Next(Math.Min(0, (int)wayToSpot.X - FirstX), Math.Max(0, (int)wayToSpot.X - FirstX));
                     int SecondY = D.Next(Math.Min(0, (int)wayToSpot.Y - FirstY), Math.Max(0, (int)wayToSpot.Y - FirstY));
@@ -1678,14 +1673,14 @@ namespace Historia
             return AreasToAvoid;
         }
 
-        private  static List<Rectangle> CreateGuaranteedPath3(Room R, List<Passageway> Passages)
+        private static List<Rectangle> CreateGuaranteedPath3(Room R, List<Passageway> Passages)
         {
             return new List<Rectangle>()
             {
-                new Rectangle(R.Location[0].X,R.Location[0].Y,R.Location[0].Width,1),
-                new Rectangle(R.Location[0].X,R.Location[0].Y,1,R.Location[0].Height),
-                new Rectangle(R.Location[0].X,R.Location[0].Bottom-1,R.Location[0].Width,1),
-                new Rectangle(R.Location[0].Right-1,R.Location[0].Y,1,R.Location[0].Height)
+                new Rectangle(R.Location.X,R.Location.Y,R.Location.Width,1),
+                new Rectangle(R.Location.X,R.Location.Y,1,R.Location.Height),
+                new Rectangle(R.Location.X,R.Location.Bottom-1,R.Location.Width,1),
+                new Rectangle(R.Location.Right-1,R.Location.Y,1,R.Location.Height)
             };
         }
 
@@ -1695,12 +1690,12 @@ namespace Historia
             List<Rectangle> AreasToAvoid = new List<Rectangle>();
             Random D = new Random();
             int ChosenEntrypoint = D.Next(0, R.EntryPoints.Count - 1);
-            for(int I = 0; I < R.EntryPoints.Count; I++)
+            for (int I = 0; I < R.EntryPoints.Count; I++)
             {
-                if(I != ChosenEntrypoint)
+                if (I != ChosenEntrypoint)
                 {
                     bool vertfirst = Passages[R.EntryPoints[I].PassagewayUsing].IsVertical;
-                    AreasToAvoid.AddRange(CarvePathAtoB(vertfirst,R.EntryPoints[I].Location, R.EntryPoints[ChosenEntrypoint].Location));
+                    AreasToAvoid.AddRange(CarvePathAtoB(vertfirst, R.EntryPoints[I].Location, R.EntryPoints[ChosenEntrypoint].Location));
                 }
             }
             return AreasToAvoid;
@@ -1771,9 +1766,9 @@ namespace Historia
 
         public static bool TossCoin(Random C)
         {
-            
-            
-            if (C.Next() >=  int.MaxValue/2)
+
+
+            if (C.Next() >= int.MaxValue / 2)
             {
                 return true;
             }
@@ -1781,14 +1776,14 @@ namespace Historia
             {
                 return false;
             }
-            
+
         }
-        
-        public static bool IsEntryPointHere(List<Room.EntryPoint>Entries, Vector2 Loc)
+
+        public static bool IsEntryPointHere(List<Room.EntryPoint> Entries, Vector2 Loc)
         {
-            foreach(Room.EntryPoint E in Entries)
+            foreach (Room.EntryPoint E in Entries)
             {
-                if(E.Location == Loc)
+                if (E.Location == Loc)
                 {
                     return true;
                 }

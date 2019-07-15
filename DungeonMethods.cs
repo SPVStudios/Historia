@@ -35,7 +35,7 @@ namespace Historia
             }
             int WhichR_Room = PossRooms[mapRef.D.Next(0, PossRooms.Count)];
                
-            Rectangle RoomLoc = Rooms[WhichR_Room].Location[0];
+            Rectangle RoomLoc = Rooms[WhichR_Room].Location;
             while (true)
             {
                 int RoomX = mapRef.D.Next(RoomLoc.X, RoomLoc.Right - 1);
@@ -78,7 +78,7 @@ namespace Historia
             }
             int WhichR_Room = PossRooms[mapRef.D.Next(0, PossRooms.Count)];
 
-            Rectangle RoomLoc = Rooms[WhichR_Room].Location[0];
+            Rectangle RoomLoc = Rooms[WhichR_Room].Location;
             while (true)
             {
                 int RoomX = mapRef.D.Next(RoomLoc.X, RoomLoc.Right - 1);

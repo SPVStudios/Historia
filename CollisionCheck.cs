@@ -85,11 +85,11 @@ namespace Historia
                             Valid = true;
                             break;
                         }
-                        else if (E.Value.CurrentBS.PlannedTargets.Count > 0)
+                        else if (E.Value.CurrentBS.myPlannedMoves.Count > 0)
                         {
 
                         
-                        if (E.Value.CurrentBS.PlannedTargets[E.Value.CurrentBS.PlannedTargets.Count - 1] == Os[I])
+                        if (E.Value.CurrentBS.myPlannedMoves[E.Value.CurrentBS.myPlannedMoves.Count - 1] == Os[I])
                             {
                                 Valid = true;
                                 break;

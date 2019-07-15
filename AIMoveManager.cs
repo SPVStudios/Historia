@@ -194,12 +194,11 @@ namespace Historia
 
 
                 foreach (KeyValuePair<int, Enemy> T in mapRef.CurrentEnemies)
-
                 {
                     int I = T.Key;
-                    for (int J = 0; J < Math.Min(mapRef.CurrentEnemies[I].CurrentBS.PlannedTargets.Count, 16); J++)//only looks 15 moves into the future at most
+                    for (int J = 0; J < Math.Min(mapRef.CurrentEnemies[I].CurrentBS.myPlannedMoves.Count, 16); J++)//only looks 15 moves into the future at most
                     {
-                        TimedLocation Move = new TimedLocation(mapRef.CurrentEnemies[I].CurrentBS.PlannedTargets[J], J);
+                        TimedLocation Move = new TimedLocation(mapRef.CurrentEnemies[I].CurrentBS.myPlannedMoves[J], J);
                         if (!Move.MatchInDict(AllFutureMoves, I) && !Move.OneEarlier.MatchInDict(AllFutureMoves, I) && !Move.OneLater.MatchInDict(AllFutureMoves, I))
                         {
                             AllFutureMoves.Add(Move, I);
@@ -239,11 +238,11 @@ namespace Historia
                                 if (I < Other_Priority)
                                 {//The Target of index Other_Priority yields
                                     if (!mapRef.CurrentEnemies[Other_Priority].CurrentBS.WarnOfFriendlyCollision
-                                        (I, Other_Priority, LocOfColl, mapRef.CurrentEnemies[I].CurrentBS.PlannedTargets, mapRef.CurrentEnemies[I].MovingToTilePosition,
+                                        (I, Other_Priority, LocOfColl, mapRef.CurrentEnemies[I].CurrentBS.myPlannedMoves, mapRef.CurrentEnemies[I].MovingToTilePosition,
                                         Other_Priority_MovesToColl, J))
                                     {//if is found to be impossible for that individual, the other tries
                                         if (!mapRef.CurrentEnemies[I_Priority].CurrentBS.WarnOfFriendlyCollision
-                                        (Other_Priority, I, LocOfColl, mapRef.CurrentEnemies[Other_Priority].CurrentBS.PlannedTargets, mapRef.CurrentEnemies[Other_Priority].MovingToTilePosition,
+                                        (Other_Priority, I, LocOfColl, mapRef.CurrentEnemies[Other_Priority].CurrentBS.myPlannedMoves, mapRef.CurrentEnemies[Other_Priority].MovingToTilePosition,
                                         J, Other_Priority_MovesToColl))
                                         {
                                             //throw new Exception("Collision could not be averted");
@@ -254,11 +253,11 @@ namespace Historia
                                 else if (Other_Priority < I)
                                 {// Enemy of Index I yields
                                     if (!mapRef.CurrentEnemies[I_Priority].CurrentBS.WarnOfFriendlyCollision
-                                        (Other_Priority, I, LocOfColl, mapRef.CurrentEnemies[Other_Priority].CurrentBS.PlannedTargets, mapRef.CurrentEnemies[Other_Priority].MovingToTilePosition,
+                                        (Other_Priority, I, LocOfColl, mapRef.CurrentEnemies[Other_Priority].CurrentBS.myPlannedMoves, mapRef.CurrentEnemies[Other_Priority].MovingToTilePosition,
                                         J, Other_Priority_MovesToColl))
                                     {
                                         if (!mapRef.CurrentEnemies[Other_Priority].CurrentBS.WarnOfFriendlyCollision
-                                        (I, Other_Priority, LocOfColl, mapRef.CurrentEnemies[I].CurrentBS.PlannedTargets, mapRef.CurrentEnemies[I].MovingToTilePosition,
+                                        (I, Other_Priority, LocOfColl, mapRef.CurrentEnemies[I].CurrentBS.myPlannedMoves, mapRef.CurrentEnemies[I].MovingToTilePosition,
                                         Other_Priority_MovesToColl, J))
                                         {
                                             //throw new Exception("Collision could not be averted");
@@ -291,8 +290,8 @@ namespace Historia
                 }
                 else
                 {
-                    if (!mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].CurrentBS.PlannedTargets.Contains(PassCalls[I].TileToPass)
-                    && mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].CurrentBS.PlannedTargets.Count > 0
+                    if (!mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].CurrentBS.myPlannedMoves.Contains(PassCalls[I].TileToPass)
+                    && mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].CurrentBS.myPlannedMoves.Count > 0
                     && mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].TilePosition != PassCalls[I].TileToPass
                     && mapRef.CurrentEnemies[PassCalls[I].EnemyWatching].MovingToTilePosition != PassCalls[I].TileToPass)
                     {
@@ -334,12 +333,12 @@ namespace Historia
         
         public  bool AreTheyJustFollowingEachOther(int A, int AHitsBHere, int B, int BHitsAHere)
         {
-            int AMovesLeft = mapRef.CurrentEnemies[A].CurrentBS.PlannedTargets.Count - (AHitsBHere + 1);
-            int BMovesLeft = mapRef.CurrentEnemies[B].CurrentBS.PlannedTargets.Count - (AHitsBHere + 1);
+            int AMovesLeft = mapRef.CurrentEnemies[A].CurrentBS.myPlannedMoves.Count - (AHitsBHere + 1);
+            int BMovesLeft = mapRef.CurrentEnemies[B].CurrentBS.myPlannedMoves.Count - (AHitsBHere + 1);
             int Cap = Math.Min(3, Math.Min(AMovesLeft, BMovesLeft));
             for (int I = 1; I < Cap; I++)
             {
-                if (mapRef.CurrentEnemies[A].CurrentBS.PlannedTargets[AHitsBHere + I] != mapRef.CurrentEnemies[B].CurrentBS.PlannedTargets[BHitsAHere + I])
+                if (mapRef.CurrentEnemies[A].CurrentBS.myPlannedMoves[AHitsBHere + I] != mapRef.CurrentEnemies[B].CurrentBS.myPlannedMoves[BHitsAHere + I])
                 {
                     return false;
                 }

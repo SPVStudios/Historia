@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Data>
+  <Behaviour ID="1">Lazy</Behaviour>
+  <Behaviour ID="2">Pace</Behaviour>
+  <Behaviour ID="3">PatrolAtoB</Behaviour>
+  <Behaviour ID="4">Mill_Around</Behaviour>
+</Data>

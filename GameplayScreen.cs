@@ -15,15 +15,19 @@ namespace Historia
         public Map map;
         Camera camera;
 
+        SuspicionOverlay suspicionOverlay;
+
         HealthBar HPBar;
         SuspicionBar suspicionBar;
         SpriteFont font;
 
         Vector2 tilesOnScreen;
-        const int NumOfEnemies = 2;//usually overwritten in case of having active Quests
+        public const int NumOfEnemies = 4;//usually overwritten in case of having active Quests
         //USE EnemiesAtATime everywhere where NumOfEnemies is used - but equate the two in LoadContent to be overruled if necessary by a Quest
         int TotalEnemies;
         int EnemiesAtATime;
+
+        const bool EnableAITesting = false;
 
         Quest CurrentQuest; 
 
@@ -31,12 +35,13 @@ namespace Historia
 
         public override void LoadContent()
         {
-
-
             base.LoadContent();
             XmlManager<Player> playerLoader = new XmlManager<Player>();
             player = playerLoader.Load("Load/Gameplay/Player.xml");
 
+            XmlManager<SuspicionOverlay> suspLoader = new XmlManager<SuspicionOverlay>();
+            suspicionOverlay = suspLoader.Load("Load/Gameplay/Overlays/SuspicionOverlay.xml");
+            suspicionOverlay.Alpha = 0.5f;
             //if loading from a GameState info....
             if (GameState.Instance.EnteringDungeon)
             {
@@ -85,7 +90,8 @@ namespace Historia
 
 
 
-            player.LoadContent(map.TileDimensions, map.EntryLoc + new Vector2(0, 1), map);
+            player.LoadContent( map.TileDimensions, map.EntryLoc + new Vector2(0, 1), map);
+            suspicionOverlay.LoadContent((int)map.TileDimensions.X);
             map.SpawnEnemies(NumOfEnemies, player.CurrentRoomIn);
 
             camera = new Camera(map.Size, tilesOnScreen, map.TileDimensions, player.TilePosition);
@@ -148,6 +154,7 @@ namespace Historia
             base.UnloadContent();
             map.UnloadContent();
             player.UnloadContent();
+            suspicionOverlay.UnloadContent();
         }
 
         public override void Update(GameTime gameTime)
@@ -176,9 +183,16 @@ namespace Historia
             {
                 StealthManager.Instance.Update();
                 map.Update(gameTime);
+                if(map.CurrentEnemyTotal > 0)
+                {//update our overlay
+                    Enemy subject = map.CurrentEnemies[map.CurrentEnemies.Keys.ToList().ElementAt(0)];
+                    suspicionOverlay.Update(gameTime, subject.CurrentSuspicions, null);
+                }
+
+
                 if (map.LivingEnemies < NumOfEnemies && TotalEnemies > 0)
                  {
-                    map.SpawnEnemies(1, player.CurrentRoomIn);
+                    map.SpawnEnemies( 1, player.CurrentRoomIn);
                     TotalEnemies--;
                 }
                 if (CurrentQuest != null)
@@ -237,6 +251,33 @@ namespace Historia
                     spriteBatch.DrawString(font, "Quest Complete!", new Vector2(10, 450), Color.White);
                 }
             }
+            
+            //AI Display info, only shown when bool is TRUE as defined at top of screen
+            if (EnableAITesting && map.CurrentEnemyTotal > 0)
+            {
+                suspicionOverlay.Draw(spriteBatch, camera);
+
+                Enemy test = map.CurrentEnemies[map.CurrentEnemies.Keys.ToList().ElementAt(0)];
+                spriteBatch.DrawString(font, "Enemy 1 HP: " + test.Stats.HP + "/ " + test.Stats.MaxHP, new Vector2(10, 130), Color.Wheat);
+                spriteBatch.DrawString(font, "Current Alert Level: " + test.AlertLevel + ", Current Behaviour: " + test.CurrentBS.getName(), new Vector2(10, 150), Color.Wheat);
+                if (test.SawPlayerRecently(player.TilePosition))
+                {
+                    spriteBatch.DrawString(font, "E1 Can currently see player", new Vector2(10, 170), Color.Wheat);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, "E1: player not in sight", new Vector2(10, 170), Color.Wheat);
+                }
+                if (test.HaveConfirmedTile)
+                {
+                    spriteBatch.DrawString(font, "PLAYER CONFIRMED: " + StringMethod.CoordsAsString(test.ConfirmedTile),
+                        new Vector2(10,190),Color.Red);
+                }
+
+            }
+            
+
+
         }
 
         public void GameStateToEnterWorld()
